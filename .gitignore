@@ -1,1 +1,6 @@
 tasm/
+report/
+*.EXE
+*.OBJ
+*.MAP
+*.LST
