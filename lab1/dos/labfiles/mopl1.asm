@@ -145,6 +145,7 @@ OUTPUT_MSGS:
 
 	mov ah, 1h
 	mov cx, 20
+        xor ebx, ebx
 
 INPUT:
 	int 21h
@@ -164,6 +165,7 @@ CYCLE_CHECK:
 ENTER_CHECK:
 	cmp al, 0Dh
 	jne INPUT_ERROR
+        shr ebx, 1
 
 CYCLE_END:
 	cmp di, 20
@@ -192,22 +194,33 @@ PRP_Y_INPUT:
 	; int 21h
 	; lea edx, newline
 	; int 21h
-
+        xor ebx, ebx
 	mov ah, 1h
         mov cx, 20
 	jmp INPUT
+        
 
 CALC_F:
+        xor ebx, ebx
+        xor eax, eax
+        xor ecx, ecx
 	mov ebx, X
         and ebx, 11110b
         shr ebx, 1
         
-        cmp ebx, 0001b
+        cmp ebx, 0010b
         je F_0
         cmp ebx, 0011b
         je F_0
+        cmp ebx, 0100b
+        je F_0
+        cmp ebx, 0101b
+        je F_0
         cmp ebx, 0111b
         je F_0
+        cmp ebx, 1100b
+        je F_0
+        
         
         mov F, 1
         PUTL EMPTYS
